@@ -11,11 +11,6 @@ const CYBIA = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  // Utiliser useSelector pour récupérer l'état de connexion
-  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-  // Utiliser useDispatch pour envoyer des actions
-  const dispatch = useDispatch();
-
   const handleTextChange = (e) => setText(e.target.value);
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
@@ -47,22 +42,13 @@ const CYBIA = () => {
     setHistory([...history, `Texte: ${newText.substring(0, 30)}... - Réponse: ${newResponse}`]);
   };
 
-  const handleLoginSubmit = async (e) => {
-    e.preventDefault();
-    if (username === "admin" && password === "admin") {
-      dispatch({ type: 'LOGIN' }); // Utiliser l'action de connexion
-    } else {
-      alert("Identifiants incorrects");
-    }
-  };
 
   const AdminContent = () => {
-    const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
-
+    const isLoggedIn = useSelector((state) => state.isLoggedIn);
     return (
       isLoggedIn ? (
         <div>
-          {/* Contenu réservé à l'administrateur */}
+          <h2>Admin Section</h2>
         </div>
       ) : null
     );

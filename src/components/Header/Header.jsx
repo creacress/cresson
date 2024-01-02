@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import './Header.scss';
 
 const Header = () => {
     const [isNavExpanded, setIsNavExpanded] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    // Utilisez useSelector pour accéder à l'état de connexion à partir du store Redux
+    const isLoggedIn = useSelector((state) => state.isLoggedIn);
+    // Utilisez useDispatch pour dispatcher des actions
+    const dispatch = useDispatch();
 
     const handleLoginSubmit = (e) => {
         e.preventDefault();
         // Ici, ajoutez votre logique de vérification des identifiants
         if (username === "admin" && password === "admin") {
-            setIsLoggedIn(true);
+            // Dispatch l'action de connexion
+            dispatch({ type: 'LOGIN' });
         } else {
             alert("Identifiants incorrects");
         }
+    };
+
+    // Ajoutez une fonction pour gérer la déconnexion
+    const handleLogout = () => {
+        // Dispatch l'action de déconnexion
+        dispatch({ type: 'LOGOUT' });
     };
 
     return (
@@ -32,7 +43,7 @@ const Header = () => {
                 <ul>
                     <li><Link to="/" onClick={() => setIsNavExpanded(false)}>About</Link></li>
                     <li><Link to="/projects" onClick={() => setIsNavExpanded(false)}>Projects</Link></li>
-                    {!isLoggedIn && (
+                    {!isLoggedIn ? (
                         <li>
                             <form onSubmit={handleLoginSubmit} className="login-form">
                                 <input 
@@ -50,9 +61,12 @@ const Header = () => {
                                 <button type="submit">Connexion</button>
                             </form>
                         </li>
-                    )}
-                    {isLoggedIn && (
-                        <li>Bienvenue, Admin!</li>
+                    ) : (
+                        <li>
+                            Bienvenue, Admin!
+                            {/* Ajoutez un bouton ou un lien pour la déconnexion */}
+                            <button onClick={handleLogout}>Déconnexion</button>
+                        </li>
                     )}
                 </ul>
             </nav>
