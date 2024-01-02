@@ -1,0 +1,58 @@
+{
+    "frontend": [
+        {
+            "id": 1,
+            "title": "",
+            "description": "",
+            "img": "Selenium.webp",
+            "link": ""
+        },
+        {
+            "id": 2,
+            "title": "Projet Frontend 2",
+            "description": "Description du projet Frontend 2.",
+            "img": "Selenium.webp",
+            "link": "/lien-frontend-1"
+        },
+        {
+            "id": 3,
+            "title": "Projet Frontend 3",
+            "description": "Description du projet Frontend 3.",
+            "img": "Selenium.webp",
+            "link": "/lien-frontend-1"
+        }
+    ],
+    "backend": [
+        {
+            "id": 1,
+            "title": "Automatiser avec Selenium",
+            "description": "Automatisation, Python, Selenium, Gestion des Contrats, Efficacité Opérationnelle, Débogage Avancé.",
+            "img": "Selenium.webp",
+            "link": "https://github.com/creacress/Selenium"
+        },
+        
+        {
+            "id": 2,
+            "title": "Analyse Cookies Web",
+            "description": "Description du projet Backend 1.",
+            "img": "Selenium.webp",
+            "link": "/lien-backend-1"
+        }
+    ],
+    "llm": [
+        {
+            "id": 1,
+            "title": "Projet CYBIA - Classification de Toxicité des Textes",
+            "description": "CYBIA est une ",
+            "img": "Selenium.webp",
+            "link": "/Cybia"
+        },
+        {
+            "id": 2,
+            "title": "Projet LLM 1",
+            "description": "Description du projet LLM 1.",
+            "img": "Selenium.webp",
+            "link": "/lien-llm-1"
+        }
+    ]
+}

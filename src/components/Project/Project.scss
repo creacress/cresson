@@ -1,0 +1,87 @@
+.projects {
+    padding: 20px;
+    background: #fff;
+    color: #333;
+
+    h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2rem;
+    }
+
+    h3, h4 {
+        margin-bottom: 10px;
+    }
+
+    .project-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        @media (min-width: 768px) {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+    }
+
+    .project {
+        background: #f0f4f8;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4); 
+        transition: all 0.3s ease;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        h4 {
+            color: #212529; 
+        }
+
+        p {
+            color: #495057;
+        }
+
+        button {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #555;
+            }
+        }
+        img {
+            width: 100%;
+        }
+    }
+
+    @media (min-width: 768px) {
+        .project {
+            flex-basis: calc(50% - 10px); // Ajuste pour l'espacement
+
+            &:nth-child(odd) {
+                margin-right: 20px;
+            }
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .project {
+            flex-basis: calc(33.333% - 13px); // Ajuste pour trois colonnes
+
+            &:nth-child(odd) {
+                margin-right: 0;
+            }
+        }
+    }
+}
