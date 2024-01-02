@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
 import './Cybia.scss'; // Assurez-vous que ce chemin est correct
 
 const CYBIA = () => {
@@ -7,13 +8,15 @@ const CYBIA = () => {
   const [response, setResponse] = useState('');
   const [feedback, setFeedback] = useState('None');
   const [history, setHistory] = useState([]);
-  // États pour la gestion de la connexion
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  // Utiliser useSelector pour récupérer l'état de connexion
+  const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+  // Utiliser useDispatch pour envoyer des actions
+  const dispatch = useDispatch();
 
   const handleTextChange = (e) => setText(e.target.value);
-  // Gestion des changements dans les champs de formulaire
   const handleUsernameChange = (e) => setUsername(e.target.value);
   const handlePasswordChange = (e) => setPassword(e.target.value);
 
@@ -44,26 +47,27 @@ const CYBIA = () => {
     setHistory([...history, `Texte: ${newText.substring(0, 30)}... - Réponse: ${newResponse}`]);
   };
 
-  // Fonction de soumission du formulaire de connexion
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
-    // Vous pouvez remplacer cette logique par une requête à votre serveur d'authentification
     if (username === "admin" && password === "admin") {
-      setIsLoggedIn(true);
+      dispatch({ type: 'LOGIN' }); // Utiliser l'action de connexion
     } else {
       alert("Identifiants incorrects");
     }
   };
 
-  // Contenu supplémentaire pour l'administrateur
-  const AdminContent = () => (
-    isLoggedIn && (
-      <div>
-        {/* Contenu réservé à l'administrateur */}
-        <p>Section administrateur</p>
-      </div>
-    )
-  );
+  const AdminContent = () => {
+    const isLoggedIn = useSelector((state) => state.login.isLoggedIn);
+
+    return (
+      isLoggedIn ? (
+        <div>
+          {/* Contenu réservé à l'administrateur */}
+        </div>
+      ) : null
+    );
+  };
+
 
   return (
     <div className="cybia-container">

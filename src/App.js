@@ -1,5 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './Redux/store.js'; 
 import './App.css';
 
 // Importez vos composants
@@ -11,18 +13,20 @@ import CYBIA from './Pages/Cybia.jsx';
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <Header />
-        <Routes>
-          <Route path="/" element={<About />} />
-          <Route path="/projects" element={<Projects />} />
-          <Route path="/Cybia" element={<CYBIA />} />
-          {/* Vous pouvez ajouter d'autres routes ici si nécessaire */}
-        </Routes>
-        <Footer />
-      </div>
-    </Router>
+    <Provider store={store}>
+      <Router>
+        <div className="App">
+          <Header />
+          <Routes>
+            <Route path="/" element={<About />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/Cybia" element={<CYBIA />} />
+            
+          </Routes>
+          <Footer />
+        </div>
+      </Router>
+    </Provider>
   );
 }
 
