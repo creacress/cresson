@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import './Cybia.scss'; // Assurez-vous que ce chemin est correct
 
 const CYBIA = () => {
+  const [selectedType, setSelectedType] = useState('');
+  const [userResponse, setUserResponse] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [text, setText] = useState('');
   const [response, setResponse] = useState('');
-  const [feedback, setFeedback] = useState('None');
+  const [toxicityScore, setToxicityScore] = useState(null);
   const [history, setHistory] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-
   const handleTextChange = (e) => setText(e.target.value);
-  const handleUsernameChange = (e) => setUsername(e.target.value);
-  const handlePasswordChange = (e) => setPassword(e.target.value);
+
 
   const handleSubmit = async () => {
     if (!text.trim()) {
@@ -22,26 +21,53 @@ const CYBIA = () => {
     }
 
     try {
-      const apiResponse = await axios.post("http://api.webcresson.com:8000/detect/", { text });
-      const { is_toxic_probabilities, is_not_toxic_probabilities } = apiResponse.data;
-      const responseText = `Toxicité: ${is_toxic_probabilities.toFixed(2)}, Non-toxicité: ${is_not_toxic_probabilities.toFixed(2)}`;
+      const apiResponse = await axios.post("http://127.0.0.1:8000/detect/", { text });
+      const { is_toxic_probabilities } = apiResponse.data;
+
+      const responseText = `Toxicité: ${is_toxic_probabilities.toFixed(2)}`;
       setResponse(responseText);
-      updateHistory(text, responseText);
+      setToxicityScore(is_toxic_probabilities); // Mise à jour du score de toxicité
+      setIsModalOpen(true); // Ouvrir la modal
+      updateHistory(text, responseText); // Mise à jour de l'historique
     } catch (error) {
       alert(`Erreur: ${error}`);
     }
   };
 
-  const handleFeedback = (e) => setFeedback(e.target.value);
-
-  const saveFeedback = () => {
-    // Implémenter la logique de sauvegarde du feedback ici
+  const sendFeedback = async (userResponse) => {
+    const feedbackData = {
+      text: text,
+      toxicity_score: parseFloat(toxicityScore),
+      correctness: userResponse === "Correct" ? "Correct" : "Incorrect",
+      toxicity_type: selectedType, // Et que ça correspond aux valeurs attendues par le backend
+  };
+  
+  
+    try {
+      await axios.post("http://127.0.0.1:8000/feedback/", feedbackData);
+      alert("Feedback envoyé avec succès.");
+    } catch (error) {
+      if (error.response) {
+          // L'API a répondu avec un code d'erreur en dehors de la plage 2xx
+          console.error("Erreur de réponse :", error.response.data);
+          alert(`Erreur lors de l'envoi du feedback: ${error.response.status} - ${error.response.statusText}\n${JSON.stringify(error.response.data)}`);
+      } else if (error.request) {
+          // La requête a été faite mais aucune réponse n'a été reçue
+          console.error("Erreur de requête :", error.request);
+          alert("Erreur lors de l'envoi du feedback: Aucune réponse du serveur.");
+      } else {
+          // Quelque chose s'est produit lors de la configuration de la requête qui a déclenché une erreur
+          console.error("Erreur :", error.message);
+          alert(`Erreur lors de l'envoi du feedback: ${error.message}`);
+      }
+  }
+  
+  
   };
 
   const updateHistory = (newText, newResponse) => {
     setHistory([...history, `Texte: ${newText.substring(0, 30)}... - Réponse: ${newResponse}`]);
   };
-
 
   const AdminContent = () => {
     const isLoggedIn = useSelector((state) => state.isLoggedIn);
@@ -51,6 +77,68 @@ const CYBIA = () => {
           <h2>Admin Section</h2>
         </div>
       ) : null
+    );
+  };
+
+  const Modal = ({ isOpen, onClose, children, onSendFeedback }) => {
+
+    const handleFeedbackChange = (e) => {
+      setUserResponse(e.target.value);
+    };
+
+    const handleTypeChange = (e) => {
+      setSelectedType(e.target.value);
+    };
+
+    const handleSendFeedback = () => {
+      const feedbackData = {
+          text: text,
+          toxicity_score: parseFloat(toxicityScore), // Assurez-vous que c'est un nombre
+          correctness: userResponse, // "Correct" ou "Incorrect"
+          toxicity_type: selectedType, // Assurez-vous que c'est la valeur correcte
+      };
+      onSendFeedback(feedbackData);
+      onClose(); // Fermer la modal après l'envoi
+  };
+  
+
+    if (!isOpen) return null;
+
+    return (
+      <div className={`modal-overlay-Cybia ${isOpen ? 'open' : ''}`}>
+        <div className="modal-Cybia">
+          {children}
+          <div className="feedback-options">
+            <label>
+              <input
+                type="radio"
+                name="feedback"
+                value="Correct"
+                onChange={handleFeedbackChange}
+              /> Correct
+            </label>
+            <label>
+              <input
+                type="radio"
+                name="feedback"
+                value="Incorrect"
+                onChange={handleFeedbackChange}
+              /> Incorrect
+            </label>
+            <div className="comment-type-select">
+              <label>Sélectionnez le type de commentaire :</label>
+              <select value={selectedType} onChange={handleTypeChange}>
+                <option value="">Sélectionnez un type</option>
+                <option value="Type 1">Type 1</option>
+                <option value="Type 2">Type 2</option>
+                <option value="Type 3">Type 3</option>
+              </select>
+            </div>
+          </div>
+          <button onClick={handleSendFeedback}>Envoyer le Feedback</button>
+          <button onClick={onClose}>Fermer</button>
+        </div>
+      </div>
     );
   };
 
@@ -82,9 +170,12 @@ const CYBIA = () => {
           <div className="card history">
             <h2>Historique des requêtes</h2>
             <ul>
-              {/* Les requêtes historiques */}
+              {history.map((entry, index) => (
+                <li key={index}>{entry}</li>
+              ))}
             </ul>
           </div>
+
           <div className="card features">
             <h3>Fonctionnalité</h3>
             <ul>
@@ -100,19 +191,21 @@ const CYBIA = () => {
       </div>
 
       <AdminContent />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSendFeedback={sendFeedback}
+      >
+        <p>{response}</p>
+      </Modal>
+
+
       <footer className="cybia-form-footer">
         <section className="cybia-form">
           <label htmlFor="textInput">Texte à analyser:</label>
           <input type="text" id="textInput" value={text} onChange={handleTextChange} />
           <button onClick={handleSubmit}>Analyser</button>
           <div className="cybia-response">{response}</div>
-
-          <div className="cybia-feedback">
-            <label>La prédiction est-elle correcte ?</label>
-            <input type="radio" name="feedback" value="Correct" onChange={handleFeedback} /> Oui
-            <input type="radio" name="feedback" value="Incorrect" onChange={handleFeedback} /> Non
-          </div>
-          <button onClick={saveFeedback}>Enregistrer le Feedback</button>
         </section>
       </footer>
     </div>

@@ -128,10 +128,11 @@
             }
 
             .cybia-response, .cybia-feedback-message {
-                opacity: 0;
+                opacity: 1; 
                 transition: opacity 0.5s ease;
-              }
-              
+            }
+            
+
             .cybia-feedback {
                 margin-top: 10px;
 
@@ -158,3 +159,97 @@
         }
     }
 }
+/******************/
+.modal-overlay-Cybia {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .modal-Cybia {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 50%;
+    transition: transform 0.3s ease-in-out;
+    transform: translateY(-200px);
+    
+    /*Styles types Commentaires*/
+    .comment-type-select {
+        margin-top: 10px;
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: bold;
+        }
+        select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            background-color: white;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    
+            &:focus {
+                border-color: #5b9bd5;
+                box-shadow: 0 0 8px rgba(91, 155, 213, 0.6);
+            }
+        }
+    }
+    
+
+    .feedback-options {
+        margin-top: 20px;
+      
+        label {
+          margin-right: 15px;
+          font-weight: bold;
+      
+          input[type="radio"] {
+            margin-right: 5px;
+          }
+        }
+      }
+  }
+  .modal-overlay-Cybia.open {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .modal-overlay-Cybia.open .modal-Cybia {
+    transform: translateY(0);
+  }
+  .modal-Cybia button {
+    background: #007bff;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 1rem;
+    transition: background-color 0.2s;
+  
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .modal {
+      width: 80%;
+    }
+  }
+        
