@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './Project.scss';
+import './Projects.scss';
 import projectsData from '../../projectsData.json';
 import Modal from '../Modal/Modal';
 

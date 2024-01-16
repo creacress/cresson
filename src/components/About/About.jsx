@@ -1,15 +1,15 @@
 import React from 'react';
 import './About.scss';
-import profilePic from '../../assets/profil.webp'; 
+import profilePic from '../../assets/profil.webp';
 
 const About = () => {
     return (
-        <div className="about" id="about">
+        <section className="about" id="about">
             <div className="about-container">
-                <div className="profile-pic">
-                    <img src={profilePic} alt="Profil" />
-                </div>
-                <div className="about-content">
+                <figure className="profile-pic">
+                    <img src={profilePic} alt="Profil" width="200" height="200" />
+                </figure>
+                <article className="about-content">
                     <h2>À propos de moi</h2>
                     <p>Je suis un développeur passionné par les projets backend. J'aime résoudre des problèmes complexes et créer des solutions efficaces.</p>
                     <p>Voici quelques compétences que je possède :</p>
@@ -18,9 +18,9 @@ const About = () => {
                         <li>Python</li>
                         <li>Base de données</li>
                     </ul>
-                </div>
+                </article>
             </div>
-        </div>
+        </section>
     );
 };
 

@@ -71,14 +71,23 @@ const CYBIA = () => {
 
   const AdminContent = () => {
     const isLoggedIn = useSelector((state) => state.isLoggedIn);
+  
+    const loginWithTwitter = () => {
+      window.location.href = 'http://127.0.0.1:8000/login/twitter';
+    };
+  
     return (
-      isLoggedIn ? (
-        <div>
-          <h2>Admin Section</h2>
-        </div>
-      ) : null
+      <div>
+        {!isLoggedIn ? (
+          <button onClick={loginWithTwitter}>Se connecter avec Twitter</button>
+          ) : (
+            <h2>Section Admin</h2>
+          // Ajoutez ici le contenu de l'admin une fois connecté
+        )}
+      </div>
     );
   };
+  
 
   const Modal = ({ isOpen, onClose, children, onSendFeedback }) => {
 
@@ -93,9 +102,9 @@ const CYBIA = () => {
     const handleSendFeedback = () => {
       const feedbackData = {
           text: text,
-          toxicity_score: parseFloat(toxicityScore), // Assurez-vous que c'est un nombre
-          correctness: userResponse, // "Correct" ou "Incorrect"
-          toxicity_type: selectedType, // Assurez-vous que c'est la valeur correcte
+          toxicity_score: parseFloat(toxicityScore),
+          correctness: userResponse, 
+          toxicity_type: selectedType, 
       };
       onSendFeedback(feedbackData);
       onClose(); // Fermer la modal après l'envoi
