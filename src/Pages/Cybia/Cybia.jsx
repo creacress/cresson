@@ -7,6 +7,8 @@ const CYBIA = () => {
   const [selectedType, setSelectedType] = useState('');
   const [userResponse, setUserResponse] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [text, setText] = useState('');
   const [response, setResponse] = useState('');
   const [toxicityScore, setToxicityScore] = useState(null);
@@ -40,29 +42,28 @@ const CYBIA = () => {
       toxicity_score: parseFloat(toxicityScore),
       correctness: userResponse === "Correct" ? "Correct" : "Incorrect",
       toxicity_type: selectedType, // Et que ça correspond aux valeurs attendues par le backend
-  };
-  
-  
+    };
+
     try {
       await axios.post("http://127.0.0.1:8000/feedback/", feedbackData);
       alert("Feedback envoyé avec succès.");
     } catch (error) {
       if (error.response) {
-          // L'API a répondu avec un code d'erreur en dehors de la plage 2xx
-          console.error("Erreur de réponse :", error.response.data);
-          alert(`Erreur lors de l'envoi du feedback: ${error.response.status} - ${error.response.statusText}\n${JSON.stringify(error.response.data)}`);
+        // L'API a répondu avec un code d'erreur en dehors de la plage 2xx
+        console.error("Erreur de réponse :", error.response.data);
+        alert(`Erreur lors de l'envoi du feedback: ${error.response.status} - ${error.response.statusText}\n${JSON.stringify(error.response.data)}`);
       } else if (error.request) {
-          // La requête a été faite mais aucune réponse n'a été reçue
-          console.error("Erreur de requête :", error.request);
-          alert("Erreur lors de l'envoi du feedback: Aucune réponse du serveur.");
+        // La requête a été faite mais aucune réponse n'a été reçue
+        console.error("Erreur de requête :", error.request);
+        alert("Erreur lors de l'envoi du feedback: Aucune réponse du serveur.");
       } else {
-          // Quelque chose s'est produit lors de la configuration de la requête qui a déclenché une erreur
-          console.error("Erreur :", error.message);
-          alert(`Erreur lors de l'envoi du feedback: ${error.message}`);
+        // Quelque chose s'est produit lors de la configuration de la requête qui a déclenché une erreur
+        console.error("Erreur :", error.message);
+        alert(`Erreur lors de l'envoi du feedback: ${error.message}`);
       }
-  }
-  
-  
+    }
+
+
   };
 
   const updateHistory = (newText, newResponse) => {
@@ -71,24 +72,30 @@ const CYBIA = () => {
 
   const AdminContent = () => {
     const isLoggedIn = useSelector((state) => state.isLoggedIn);
-  
+
     const loginWithTwitter = () => {
       window.location.href = 'http://127.0.0.1:8000/login/twitter';
     };
-  
+
     return (
       <div>
         {!isLoggedIn ? (
           <button onClick={loginWithTwitter}>Se connecter avec Twitter</button>
-          ) : (
-            <h2>Section Admin</h2>
+        ) : (
+          <h2>Section Admin</h2>
           // Ajoutez ici le contenu de l'admin une fois connecté
         )}
       </div>
     );
   };
-  
 
+  const openModalWithLoading = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setShowModal(true);
+    }, 2000); // 2 secondes de chargement
+  };
   const Modal = ({ isOpen, onClose, children, onSendFeedback }) => {
 
     const handleFeedbackChange = (e) => {
@@ -101,15 +108,15 @@ const CYBIA = () => {
 
     const handleSendFeedback = () => {
       const feedbackData = {
-          text: text,
-          toxicity_score: parseFloat(toxicityScore),
-          correctness: userResponse, 
-          toxicity_type: selectedType, 
+        text: text,
+        toxicity_score: parseFloat(toxicityScore),
+        correctness: userResponse,
+        toxicity_type: selectedType,
       };
       onSendFeedback(feedbackData);
       onClose(); // Fermer la modal après l'envoi
-  };
-  
+    };
+
 
     if (!isOpen) return null;
 
@@ -153,10 +160,26 @@ const CYBIA = () => {
 
 
   return (
-    <div className="cybia-container">
+
+    <section className="cybia-container">
       <header className="cybia-header">
         <h1>CYBIA - Détecteur de Toxicité</h1>
       </header>
+      <button onClick={openModalWithLoading}>Tester CYBIA</button>
+     <input type="text" name="" id="firstname" />
+     <input type="" value="" />
+
+      {isLoading && <div>Chargement...</div>}
+      {showModal && (
+        <div className="cybia-form">
+          <div className="cybia-form">
+            <label htmlFor="textInput">Texte à analyser:</label>
+            <input type="text" id="textInput" value={text} onChange={handleTextChange} />
+            <button onClick={handleSubmit}>Analyser</button>
+            <div className="cybia-response">{response}</div>
+          </div>
+        </div>
+      )}
 
       <div className="cybia-content">
         <aside className="cybia-aside-left">
@@ -176,6 +199,7 @@ const CYBIA = () => {
         </aside>
 
         <aside className="cybia-aside-right">
+  
           <div className="card history">
             <h2>Historique des requêtes</h2>
             <ul>
@@ -208,16 +232,7 @@ const CYBIA = () => {
         <p>{response}</p>
       </Modal>
 
-
-      <footer className="cybia-form-footer">
-        <section className="cybia-form">
-          <label htmlFor="textInput">Texte à analyser:</label>
-          <input type="text" id="textInput" value={text} onChange={handleTextChange} />
-          <button onClick={handleSubmit}>Analyser</button>
-          <div className="cybia-response">{response}</div>
-        </section>
-      </footer>
-    </div>
+    </section>
   );
 };
 

@@ -1,7 +1,10 @@
 .about {
-    background-color: #f4f4f4;
+    border: 1px solid;
     padding: 40px 20px;
     text-align: center;
+    margin: auto;
+    border-radius: 20px;
+    width: 80%;
 
     .about-container {
         display: flex;
@@ -55,3 +58,9 @@
         }
     }
 }
+
+/**/  
+  .fa {
+    margin: 1rem;
+    font-size: x-large;
+  }

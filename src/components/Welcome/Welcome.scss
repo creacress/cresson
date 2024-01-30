@@ -1,0 +1,131 @@
+.welcome {
+    padding-top: 5rem;
+    /*background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('../../assets/neurone.jpg');*/
+    background-size: cover;
+    background-position: center;
+    background-color: black;
+    color: whitesmoke;
+    text-align: center;
+    transition: all 0.3s ease;
+
+    @media (max-width: 768px) {
+        background-size: contain;
+    }
+
+    .welcome-content {
+        display: flex;
+        margin: 20px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+
+        @media (max-width: 768px) {
+            display: block;
+            width: 100%;
+            margin: 0;
+            font-size: 0.9em;
+            animation: fadeInDown 1s ease-out;
+        }
+
+
+        .welcome-card {
+            display: flex;
+            flex-direction: column;
+            width: 80%;
+            animation: fadeIn 1s ease-out;
+            border: 1px solid;
+            border-radius: 20px;
+            margin: auto;
+            margin-top: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+            li {
+                list-style: none;
+            }
+
+            &:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 4px 20px rgba(244, 244, 3, 0.96);
+            }
+
+            @media (max-width: 768px) {
+                display: flex;
+                flex-direction: column;
+                width: 80%;
+                animation: fadeIn 1s ease-out;
+                border: 1px solid;
+                border-radius: 20px;
+                margin: auto;
+                margin-top: 1rem;
+                transition: transform 0.3s ease, box-shadow 0.3s ease;
+            }
+        }
+    }
+
+    .project-preview {
+        // Style similaire à .card
+        border-radius: 10px;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin: 20px;
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.2);
+        }
+    }
+
+    .project-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+
+        @media (min-width: 768px) {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .project {
+            padding: 1rem;
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 1);
+        }
+    }
+}
+
+button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+        background-color: #555;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

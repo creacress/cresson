@@ -23,8 +23,8 @@
     background-color: #fefefe;
     margin: auto;
     padding: 20px;
-    border-radius: 10px; // Bordures arrondies
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3); // Ombre pour la profondeur
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     width: 50%; // Largeur ajustée
     transform: translateY(-200px);
     transition: transform 0.3s ease-out;
@@ -54,3 +54,24 @@
         transition: color 0.2s ease-in-out;
     }
 }
+
+.modal-overlay-card {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content-card {
+    color: black;
+    background-color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+  }
+  

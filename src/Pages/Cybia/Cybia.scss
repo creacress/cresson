@@ -72,7 +72,8 @@
         }
     }
 
-    .cybia-form-footer {
+
+    .cybia-form {
         background: #f4f4f4;
         padding: 20px;
         border-top: 1px solid #dcdcdc;
@@ -86,7 +87,7 @@
                 margin-bottom: 5px;
                 color: #333;
             }
-
+            
             input[type="text"],
             button {
                 transition: all 0.3s ease;

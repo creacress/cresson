@@ -31,7 +31,9 @@ const Header = () => {
 
     return (
         <header className="header">
+            <a href="/">
             <div className="logo">Votre Logo</div>
+            </a>
             <button 
                 className="nav-toggle" 
                 aria-label="toggle navigation"
@@ -41,7 +43,6 @@ const Header = () => {
             </button>
             <nav className={`navigation ${isNavExpanded ? 'expanded' : ''}`}>
                 <ul>
-                    <li><Link to="/" onClick={() => setIsNavExpanded(false)}>About</Link></li>
                     <li><Link to="/projects" onClick={() => setIsNavExpanded(false)}>Projects</Link></li>
                     {!isLoggedIn ? (
                         <li>
