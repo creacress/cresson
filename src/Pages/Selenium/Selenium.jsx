@@ -114,18 +114,6 @@ const Selenium = () => {
                             <li><strong>Capture d'Écran Automatisée : </strong>
                                 <br />
                                 En cas d'erreur, le script capture automatiquement une capture d'écran de l'état actuel du navigateur. Cela aide à visualiser l'état de l'application web au moment de l'erreur, ce qui est crucial pour le débogage.</li>
-
-                            <li><strong>Exemple type : </strong>
-                                <br />
-                                Voici un exemple de message log typique généré par notre script :
-                                <br />
-                                <pre id="log-example">
-                                    <code>
-                                        2024-01-13 15:30:45 - ERROR - Erreur dans le contrat numéro 12345: ElementNotVisibleException, Screenshot: screenshots/error_12345_20240113_153045.png
-                                    </code>
-                                </pre>
-
-                            </li>
                         </ul>
                     </div>
                 </aside>

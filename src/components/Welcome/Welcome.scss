@@ -11,7 +11,6 @@
     @media (max-width: 768px) {
         background-size: contain;
     }
-
     .welcome-content {
         display: flex;
         margin: 20px;
@@ -59,7 +58,26 @@
                 margin-top: 1rem;
                 transition: transform 0.3s ease, box-shadow 0.3s ease;
             }
+
+
         }
+
+        .button-card {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin: auto;
+            cursor: pointer;
+            width: 30%;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: #555;
+            }
+        }
+
     }
 
     .project-preview {
@@ -82,7 +100,6 @@
         gap: 20px;
 
         @media (min-width: 768px) {
-            flex-direction: row;
             flex-wrap: wrap;
             justify-content: space-between;
         }
@@ -90,6 +107,35 @@
         .project {
             padding: 1rem;
             box-shadow: 0 6px 10px rgba(0, 0, 0, 1);
+        }
+
+        a {
+            background-color: #333;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.2s;
+
+            &:hover {
+                background-color: #555;
+            }
+        }
+    }
+
+    .cta-button {
+        background-color: #333;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+
+        &:hover {
+            background-color: #555;
         }
     }
 }

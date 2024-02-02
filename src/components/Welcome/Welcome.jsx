@@ -43,7 +43,7 @@ const Welcome = () => {
                                     <div className="project" key={project.id}>
                                         <h4>{project.title}</h4>
                                         <p>{project.description}</p>
-                                        <button>En savoir plus</button>
+                                        <a href={project.link}>En savoir plus</a>
                                     </div>
                                 ))}
                             </div>

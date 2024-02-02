@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './About.scss';
 import profilePic from '../../assets/profil.webp';
 
-
 const About = () => {
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const toggleContent = () => {
+        setIsExpanded(!isExpanded);
+    };
+
     return (
         <section className="about" id="about">
             <div className="about-container">
@@ -19,18 +24,17 @@ const About = () => {
                         Mon parcours m'a permis de développer une vision holistique de la technologie,
                         où je fusionne maîtrise technique et compréhension approfondie des dernières tendances en intelligence artificielle.
                     </p>
-                    <p>
-                        Voici quelques compétences que je possède :
-                        <ul>
-                            <li>Développement frontend et backend avec React et Python</li>
-                            <li>Conception d'interfaces utilisateur intuitives et réactives</li>
-                            <li>Intégration de modèles LLM pour des applications innovantes</li>
-                            <li>Optimisation des performances et référencement SEO</li>
-                            <li>Approche agile et adaptative face aux défis techniques</li>
-                        </ul>
-                    </p>
+                    <div className={`additional-content ${isExpanded ? 'expanded' : ''}`}>
+                        <p>Développement frontend et backend avec React et Python</p>
+                        <p>Conception d'interfaces utilisateur intuitives et réactives</p>
+                        <p>Intégration de modèles LLM pour des applications innovantes</p>
+                        <p>Optimisation des performances et référencement SEO</p>
+                        <p>Approche agile et adaptative face aux défis techniques</p>
+                    </div>
+                    <button className="expand-button" onClick={toggleContent}>
+                        {isExpanded ? 'Voir moins' : 'Voir plus'}
+                    </button>
                 </article>
-
             </div>
         </section>
     );
