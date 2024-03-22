@@ -3,6 +3,14 @@
     background: black;
     color: #fff;
     text-align: center;
+    a {
+        text-decoration: none;
+        color: whitesmoke;
+
+        &:hover {
+            color: #007bff;
+        }
+    }
 
     @media (min-width: 768px) {
         padding: 30px 20px;

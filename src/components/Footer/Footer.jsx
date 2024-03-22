@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Footer.scss';
 
 const Footer = () => {
+    const currentYear = new Date().getFullYear();
     return (
         <footer className="footer">
-            <p>© 2023 MonSiteWeb</p>
-            <p>Contactez-moi à: monemail@example.com</p>
+            
+            <p>© {currentYear} WebCresson</p>
+            <p>Contactez-moi sur : <a href="mailto:alexis@webcresson.com">alexis@webcresson.com</a></p>
         </footer>
     );
 };

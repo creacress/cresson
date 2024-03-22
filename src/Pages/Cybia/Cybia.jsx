@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import './Cybia.scss'; // Assurez-vous que ce chemin est correct
 
 const CYBIA = () => {
-  const [selectedType, setSelectedType] = useState('');
   const [userResponse, setUserResponse] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +25,7 @@ const CYBIA = () => {
       const apiResponse = await axios.post("http://127.0.0.1:8000/detect/", { text });
       const { is_toxic_probabilities } = apiResponse.data;
 
-      const responseText = `Toxicité: ${is_toxic_probabilities.toFixed(2)}`;
+      const responseText = `Votre texte est Toxique à : ${is_toxic_probabilities.toFixed(2)}`;
       setResponse(responseText);
       setToxicityScore(is_toxic_probabilities); // Mise à jour du score de toxicité
       setIsModalOpen(true); // Ouvrir la modal
@@ -41,7 +40,6 @@ const CYBIA = () => {
       text: text,
       toxicity_score: parseFloat(toxicityScore),
       correctness: userResponse === "Correct" ? "Correct" : "Incorrect",
-      toxicity_type: selectedType, // Et que ça correspond aux valeurs attendues par le backend
     };
 
     try {
@@ -102,16 +100,11 @@ const CYBIA = () => {
       setUserResponse(e.target.value);
     };
 
-    const handleTypeChange = (e) => {
-      setSelectedType(e.target.value);
-    };
-
     const handleSendFeedback = () => {
       const feedbackData = {
         text: text,
         toxicity_score: parseFloat(toxicityScore),
-        correctness: userResponse,
-        toxicity_type: selectedType,
+        correctness: userResponse
       };
       onSendFeedback(feedbackData);
       onClose(); // Fermer la modal après l'envoi
@@ -122,39 +115,42 @@ const CYBIA = () => {
 
     return (
       <div className={`modal-overlay-Cybia ${isOpen ? 'open' : ''}`}>
-        <div className="modal-Cybia">
-          {children}
-          <div className="feedback-options">
-            <label>
-              <input
-                type="radio"
-                name="feedback"
-                value="Correct"
-                onChange={handleFeedbackChange}
-              /> Correct
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="feedback"
-                value="Incorrect"
-                onChange={handleFeedbackChange}
-              /> Incorrect
-            </label>
-            <div className="comment-type-select">
-              <label>Sélectionnez le type de commentaire :</label>
-              <select value={selectedType} onChange={handleTypeChange}>
-                <option value="">Sélectionnez un type</option>
-                <option value="Type 1">Type 1</option>
-                <option value="Type 2">Type 2</option>
-                <option value="Type 3">Type 3</option>
-              </select>
-            </div>
-          </div>
-          <button onClick={handleSendFeedback}>Envoyer le Feedback</button>
-          <button onClick={onClose}>Fermer</button>
+  <div className="modal-Cybia">
+    <div className="modal-header">
+      <h3>Résultats de l'analyse</h3>
+      <button className="close-button" onClick={onClose}>×</button>
+    </div>
+    <div className="modal-body">
+      {children}
+      <div className="feedback-section">
+        <h4>Votre avis</h4>
+        <div className="feedback-options">
+          <label>
+            <input
+              type="radio"
+              name="feedback"
+              value="Correct"
+              onChange={handleFeedbackChange}
+            /> Correct
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="feedback"
+              value="Incorrect"
+              onChange={handleFeedbackChange}
+            /> Incorrect
+          </label>
         </div>
       </div>
+    </div>
+    <div className="modal-footer">
+      <button className="send-feedback-button" onClick={handleSendFeedback}>Envoyer le Feedback</button>
+      <button className="close-modal-button" onClick={onClose}>Fermer</button>
+    </div>
+  </div>
+</div>
+
     );
   };
 
@@ -165,18 +161,23 @@ const CYBIA = () => {
       <header className="cybia-header">
         <h1>CYBIA - Détecteur de Toxicité</h1>
       </header>
-      <button onClick={openModalWithLoading}>Tester CYBIA</button>
-     <input type="text" name="" id="firstname" />
-     <input type="" value="" />
+      {!showModal && (
+        <button className="button-cybia" onClick={openModalWithLoading}>Tester CYBIA</button>
+      )}
 
-      {isLoading && <div>Chargement...</div>}
+
+      {isLoading && (
+        <div className="loader-container">
+          <div className="cybia-loader"></div>
+        </div>
+      )}
+
       {showModal && (
         <div className="cybia-form">
           <div className="cybia-form">
             <label htmlFor="textInput">Texte à analyser:</label>
             <input type="text" id="textInput" value={text} onChange={handleTextChange} />
             <button onClick={handleSubmit}>Analyser</button>
-            <div className="cybia-response">{response}</div>
           </div>
         </div>
       )}
@@ -199,7 +200,7 @@ const CYBIA = () => {
         </aside>
 
         <aside className="cybia-aside-right">
-  
+
           <div className="card history">
             <h2>Historique des requêtes</h2>
             <ul>
